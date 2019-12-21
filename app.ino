@@ -2,7 +2,6 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <EEPROM.h>
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
@@ -63,9 +62,6 @@ int menu1Selected = 1;
 
 //menu2
 int menu2Selected = 1;
-
-uint8_t EEPROMspeed = 10;
-uint8_t EEPROMpushRate = 10;
 
 
 
@@ -175,29 +171,6 @@ void setup()
     display.setTextColor(WHITE);   
     display.clearDisplay();
     display.display();
-
-    if (EEPROM.read(EEPROMspeed) == 0) {
-        EEPROM.write(EEPROMspeed, 220);
-    }
-    if (EEPROM.read(EEPROMpushRate) == 0) {
-        EEPROM.write(EEPROMpushRate, 255);
-    }
-
-    int saveSpeed = EEPROM.read(EEPROMspeed);
-
-    int savePush = EEPROM.read(EEPROMpushRate);
-
-    if (savePush == 1) {
-        pushRate = 0;
-    } else {
-        pushRate = savePush;
-    }
-    
-    if (saveSpeed == 1) {
-        flySpeed = 0;
-    } else {
-        saveSpeed = saveSpeed;
-    }
 
 }
 
@@ -633,13 +606,6 @@ void loop()
                                 display.display();
                             }
                         }
-                        if (EEPROM.read(EEPROMspeed) != flySpeed || (EEPROM.read(EEPROMspeed) != 1 && flySpeed == 0)) {
-                            if (flySpeed == 0) {
-                                EEPROM.write(EEPROMspeed, 1);
-                            } else {
-                                EEPROM.write(EEPROMspeed, flySpeed);
-                            }
-                        }
                     } else if (digitalRead(trigPin) == HIGH) {
                         display.fillTriangle(80, 30, 100, 10, 120, 30, 1);
                         display.drawTriangle(80, 35, 100, 55, 120, 35, 1);
@@ -656,13 +622,6 @@ void loop()
                             } else {
                                 flySpeed += 4;
                                 display.display();
-                            }
-                        }
-                        if (EEPROM.read(EEPROMspeed) != flySpeed || (EEPROM.read(EEPROMspeed) != 1 && flySpeed == 0)) {
-                            if (flySpeed == 0) {
-                                EEPROM.write(EEPROMspeed, 1);
-                            } else {
-                                EEPROM.write(EEPROMspeed, flySpeed);
                             }
                         }
                     } else {
@@ -699,13 +658,6 @@ void loop()
                                 display.display();
                             }
                         }
-                        if (EEPROM.read(EEPROMpushRate) != pushRate || (EEPROM.read(EEPROMpushRate) != 1 && pushRate == 0)) {
-                            if (pushRate == 0) {
-                                EEPROM.write(EEPROMpushRate, 1);
-                            } else {
-                                EEPROM.write(EEPROMpushRate, pushRate);
-                            }
-                        }
                     } else if (digitalRead(trigPin) == HIGH) {
                         display.fillTriangle(80, 30, 100, 10, 120, 30, 1);
                         display.drawTriangle(80, 35, 100, 55, 120, 35, 1);
@@ -722,13 +674,6 @@ void loop()
                             } else {
                                 pushRate += 4;
                                 display.display();
-                            }
-                        }
-                        if (EEPROM.read(EEPROMpushRate) != pushRate || (EEPROM.read(EEPROMpushRate) != 1 && pushRate == 0)) {
-                            if (pushRate == 0) {
-                                EEPROM.write(EEPROMpushRate, 1);
-                            } else {
-                                EEPROM.write(EEPROMpushRate, pushRate);
                             }
                         }
                     } else {
